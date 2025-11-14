@@ -1,3 +1,4 @@
+#creating functions to create the tables
 def create_users_table(conn):
     """Create users table."""
     cursor = conn.cursor()
