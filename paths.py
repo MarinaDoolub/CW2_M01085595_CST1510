@@ -3,7 +3,7 @@ import pandas as pd
 import bcrypt
 from pathlib import Path
 
-# Define paths
+# Defining the  paths
 DATA_DIR = Path("DATA")
 DB_PATH = DATA_DIR / "intelligence_platform.db"
 
