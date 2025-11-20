@@ -65,6 +65,8 @@ def delete_incident(conn, incident_id):
 
     return cursor.rowcount
 
+
+# Analytical reporting queries
 #-________________________________________________________________________-
 #Counting incidents by type.
 
