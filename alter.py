@@ -1,6 +1,6 @@
 from app.data.db import connect_database
 
-#Altered id to user_id
+# #Altered id to user_id
 conn = connect_database()
 cursor = conn.cursor()
 
@@ -48,6 +48,42 @@ def alter_tables_for_csv():
     finally:
         conn.close()
 
+
+if __name__ == "__main__":
+    alter_tables_for_csv()
+
+#-----------------
+#altering tables again
+
+def alter_tables_for_csv():
+    conn = connect_database()
+    cursor = conn.cursor()
+
+    try:
+        # cyber_incidents
+        cursor.execute("PRAGMA table_info(cyber_incidents)")
+        if "timestamp" not in [col[1] for col in cursor.fetchall()]:
+            cursor.execute("ALTER TABLE cyber_incidents ADD COLUMN timestamp TEXT")
+            print("Added 'timestamp' column to cyber_incidents")
+
+        # it_tickets
+        cursor.execute("PRAGMA table_info(it_tickets)")
+        if "subject" in [col[1] for col in cursor.fetchall()]:
+            print("Warning: 'subject' column is NOT NULL; empty CSV rows may fail.")
+
+        # datasets_metadata
+        cursor.execute("PRAGMA table_info(datasets_metadata)")
+        if "name" not in [col[1] for col in cursor.fetchall()]:
+            cursor.execute("ALTER TABLE datasets_metadata ADD COLUMN name TEXT")
+            print("Added 'name' column to datasets_metadata")
+
+        conn.commit()
+        print("Tables altered successfully!")
+
+    except Exception as e:
+        print("Error altering tables:", e)
+    finally:
+        conn.close()
 
 if __name__ == "__main__":
     alter_tables_for_csv()
