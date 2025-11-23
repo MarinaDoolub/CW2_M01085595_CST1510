@@ -49,7 +49,7 @@ def create_cyber_incidents_table(conn):
 #-________________________________________________________________________-
 def create_datasets_metadata_table(conn):
     cursor = conn.cursor()
-
+    # SQL statement to create  datasets_metadata_table
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS datasets_metadata (
         dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,   
@@ -73,7 +73,7 @@ def create_datasets_metadata_table(conn):
 
 def create_it_tickets_table(conn):
     cursor = conn.cursor()
-
+    # SQL statement to create  it_tickets_table
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS it_tickets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,           
