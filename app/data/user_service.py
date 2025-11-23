@@ -35,3 +35,27 @@ def register_user(username, password, role="user"):
     return True, f"User '{username}' registered successfully!"
 
 #-________________________________________________________________________
+
+def login_user(username, password):
+    conn = connect_database()
+    cursor = conn.cursor()
+
+    # Find user
+    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if not user:
+        return False, "Username not found."
+
+    # Verify password (user[2] is password_hash column)
+    stored_hash = user[2]
+    password_bytes = password.encode('utf-8')
+    hash_bytes = stored_hash.encode('utf-8')
+
+    if bcrypt.checkpw(password_bytes, hash_bytes):
+        return True, f"Welcome, {username}!"
+    else:
+        return False, "Invalid password."
+    
+#-________________________________________________________________________-
