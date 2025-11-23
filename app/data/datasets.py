@@ -34,3 +34,17 @@ def load_all_csv_data(conn):
 
     print(f"\nTotal rows loaded: {total}")
     return total
+
+#-----------------------------------------------------
+# Read  table
+def read_all(conn, table_name):
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM {table_name}")
+    rows = cursor.fetchall()
+    return rows
+
+
+def read_by_id(conn, table_name, row_id):
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM {table_name} WHERE id=?", (row_id,))
+    return cursor.fetchone()
