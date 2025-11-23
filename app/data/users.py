@@ -62,6 +62,7 @@ def update_user_role(username, new_role):
 
 def delete_user(conn, user_id):
     #delete user ID
+    conn = connect_database()
     cursor = conn.cursor()
     try:
         cursor.execute(
