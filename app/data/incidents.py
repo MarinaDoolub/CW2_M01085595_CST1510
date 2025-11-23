@@ -89,3 +89,18 @@ def get_incidents_by_type_count(conn):
     return df
 
 #-________________________________________________________________________-
+#Counting high severity incidents by status.
+
+def get_high_severity_by_status(conn):
+
+    query = """
+    SELECT status, COUNT(*) as count
+    FROM cyber_incidents
+    WHERE severity = 'High'
+    GROUP BY status
+    ORDER BY count DESC
+    """
+    df = pd.read_sql_query(query, conn)
+    return df
+
+#-________________________________________________________________________-
