@@ -2,9 +2,8 @@ from app.data.db import connect_database
 import bcrypt
 
 #------------------------------------------------------------------------
-def get_user_by_username(username):
+def get_user_by_username(conn, username):
     #Retrieve user by username
-    conn = connect_database()
     cursor = conn.cursor()
     cursor.execute(
         "SELECT * FROM users WHERE username = ?",
@@ -16,7 +15,7 @@ def get_user_by_username(username):
 
 #------------------------------------------------------------------------
 #create new user and hash password
-def insert_user(username, plain_password, role='user'):
+def insert_user(conn, username, plain_password, role='user'):
 
     # Hash the password
     password_bytes = plain_password.encode('utf-8')
@@ -24,7 +23,6 @@ def insert_user(username, plain_password, role='user'):
     password_hashed = bcrypt.hashpw(password_bytes, salt).decode('utf-8')
 
     # Connect to database and insert user
-    conn = connect_database()
     cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
@@ -39,9 +37,8 @@ def insert_user(username, plain_password, role='user'):
     return last_id
 
 #------------------------------------------------------------------------
-def update_user_role(username, new_role):
+def update_user_role(conn, username, new_role):
    #update user role
-    conn = connect_database()
     cursor = conn.cursor()
 
     try:
@@ -62,7 +59,6 @@ def update_user_role(username, new_role):
 
 def delete_user(conn, user_id):
     #delete user ID
-    conn = connect_database()
     cursor = conn.cursor()
     try:
         cursor.execute(
