@@ -1,6 +1,7 @@
 from app.data.db import connect_database
 import bcrypt
 
+#------------------------------------------------------------------------
 def get_user_by_username(username):
     #Retrieve user by username
     conn = connect_database()
@@ -14,7 +15,7 @@ def get_user_by_username(username):
     return user
 
 #------------------------------------------------------------------------
-#create new user
+#create new user and hash password
 def insert_user(username, plain_password, role='user'):
 
     # Hash the password
@@ -36,3 +37,24 @@ def insert_user(username, plain_password, role='user'):
     conn.close()
 
     return last_id
+
+#------------------------------------------------------------------------
+def update_user_role(username, new_role):
+   #update user role
+    conn = connect_database()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "UPDATE users SET role = ? WHERE username = ?",
+            (new_role, username)
+        )
+        conn.commit()
+        rowcount = cursor.rowcount
+
+    except Exception as e:
+        print(f"Error updating role for '{username}': {e}")
+        rowcount = 0
+    finally:
+        conn.close()
+        return rowcount
