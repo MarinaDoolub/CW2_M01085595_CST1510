@@ -58,4 +58,15 @@ def update_value(conn, table_name, column, new_value, row_id):
         (new_value, row_id)
     )
     conn.commit()
-    return cursor.rowcoun
+    return cursor.rowcount
+
+#-----------------------------------------------------
+# Delete  row
+def delete_row(conn, table_name, row_id):
+    cursor = conn.cursor()
+    cursor.execute(
+        f"DELETE FROM {table_name} WHERE id=?",
+        (row_id,)
+    )
+    conn.commit()
+    return cursor.rowcount
