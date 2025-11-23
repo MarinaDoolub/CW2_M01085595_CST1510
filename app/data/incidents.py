@@ -56,3 +56,17 @@ def update_incident_status(conn, incident_id, new_status):
     return cursor.rowcount
 
 #-________________________________________________________________________-
+
+#Delete an incident from the database.
+
+
+def delete_incident(conn, incident_id):
+
+    cursor = conn.cursor()
+
+    delete_query = "DELETE FROM cyber_incidents WHERE incident_id = ?"
+    cursor.execute(delete_query, (incident_id,))
+
+    conn.commit()
+
+    return cursor.rowcount
