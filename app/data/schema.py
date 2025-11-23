@@ -50,9 +50,6 @@
 def create_datasets_metadata_table(conn):
     cursor = conn.cursor()
 
-    # Drop old table if you want to rebuild
-    cursor.execute("DROP TABLE IF EXISTS datasets_metadata")
-
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS datasets_metadata (
         dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,   
@@ -73,3 +70,4 @@ def create_datasets_metadata_table(conn):
     conn.commit()
     print("Datasets metadata table created successfully!")
 # #-________________________________________________________________________-
+
