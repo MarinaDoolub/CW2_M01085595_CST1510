@@ -25,47 +25,51 @@
 
 #Creating Domain Tables
 
-def create_cyber_incidents_table(conn):
+# def create_cyber_incidents_table(conn):
 
-    cursor = conn.cursor()
-
-    # SQL statement to create cyber_incidents table
-    create_table_sql = """
-    CREATE TABLE IF NOT EXISTS cyber_incidents (
-    incident_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date TEXT NOT NULL,
-    incident_type TEXT NOT NULL,
-    severity TEXT NOT NULL,
-    status TEXT NOT NULL,
-    description TEXT,
-    reported_by TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    """
-    cursor.execute(create_table_sql)
-    conn.commit()
-    print("Cyber incidents table created successfully!")
-
-# #-________________________________________________________________________-
-# def create_datasets_metadata_table(conn):
- 
 #     cursor = conn.cursor()
 
-#     # SQL statement to create datasets_metadata table
+#     # SQL statement to create cyber_incidents table
 #     create_table_sql = """
-#     CREATE TABLE IF NOT EXISTS datasets_metadata (
-#         dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#         name TEXT NOT NULL,
-#         category TEXT,
-#         uploaded_by TEXT,
-#         last_updated TEXT,
-#         record_count INTEGER,
-#         file_size_mb REAL,
-#         upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-#     )
+#     CREATE TABLE IF NOT EXISTS cyber_incidents (
+#     incident_id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     date TEXT NOT NULL,
+#     incident_type TEXT NOT NULL,
+#     severity TEXT NOT NULL,
+#     status TEXT NOT NULL,
+#     description TEXT,
+#     reported_by TEXT NOT NULL,
+#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+#     );
 #     """
-
 #     cursor.execute(create_table_sql)
 #     conn.commit()
-#     print("Datasets metadata table created successfully!")
+#     print("Cyber incidents table created successfully!")
+
+# #-________________________________________________________________________-
+def create_datasets_metadata_table(conn):
+    cursor = conn.cursor()
+
+    # Drop old table if you want to rebuild
+    cursor.execute("DROP TABLE IF EXISTS datasets_metadata")
+
+    create_table_sql = """
+    CREATE TABLE IF NOT EXISTS datasets_metadata (
+        dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,   
+        dataset_name TEXT NOT NULL,
+        category TEXT,
+        source TEXT,
+        last_updated TEXT,
+        record_count INTEGER,
+        file_size_mb REAL,                            
+        columns INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                 
+        uploaded_by TEXT,                                
+        upload_date TEXT,                                                                                                                                 
+    );
+    """
+
+    cursor.execute(create_table_sql)
+    conn.commit()
+    print("Datasets metadata table created successfully!")
 # #-________________________________________________________________________-
