@@ -20,13 +20,14 @@ def insert_user(conn, username, plain_password, role='user'):
     # Hash the password
     password_bytes = plain_password.encode('utf-8')
     salt = bcrypt.gensalt()
-    password_hashed = bcrypt.hashpw(password_bytes, salt).decode('utf-8')
+    hashed = bcrypt.hashpw(password_bytes, salt)
+    password_hash = hashed.decode('utf-8')
 
     # Connect to database and insert user
     cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
-        (username, password_hashed, role)
+        (username, password_hash, role)
     )
     conn.commit()
 
