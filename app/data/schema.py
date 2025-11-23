@@ -47,27 +47,50 @@
 #     print("Cyber incidents table created successfully!")
 
 # #-________________________________________________________________________-
-def create_datasets_metadata_table(conn):
+# def create_datasets_metadata_table(conn):
+#     cursor = conn.cursor()
+
+#     create_table_sql = """
+#     CREATE TABLE IF NOT EXISTS datasets_metadata (
+#         dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,   
+#         dataset_name TEXT NOT NULL,
+#         category TEXT,
+#         source TEXT,
+#         last_updated TEXT,
+#         record_count INTEGER,
+#         file_size_mb REAL,                            
+#         columns INTEGER,
+#         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                 
+#         uploaded_by TEXT,                                
+#         upload_date TEXT,                                                                                                                                 
+#     );
+#     """
+
+#     cursor.execute(create_table_sql)
+#     conn.commit()
+#     print("Datasets metadata table created successfully!")
+# #-________________________________________________________________________-
+
+def create_it_tickets_table(conn):
     cursor = conn.cursor()
 
     create_table_sql = """
-    CREATE TABLE IF NOT EXISTS datasets_metadata (
-        dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,   
-        dataset_name TEXT NOT NULL,
-        category TEXT,
-        source TEXT,
-        last_updated TEXT,
-        record_count INTEGER,
-        file_size_mb REAL,                            
-        columns INTEGER,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                 
-        uploaded_by TEXT,                                
-        upload_date TEXT,                                                                                                                                 
+    CREATE TABLE IF NOT EXISTS it_tickets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,           
+        ticket_id TEXT UNIQUE NOT NULL,                 
+        priority TEXT,                                  
+        status TEXT,                                    
+        description TEXT,                               
+        assigned_to TEXT,                               
+        created_date TEXT,                             
+        resolved_date TEXT,                             
+        resolution_time_hours REAL,                     
+        category TEXT,                                 
+        subject TEXT,                                  
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
     );
     """
 
     cursor.execute(create_table_sql)
     conn.commit()
-    print("Datasets metadata table created successfully!")
-# #-________________________________________________________________________-
-
+    print("IT tickets table created successfully!")
