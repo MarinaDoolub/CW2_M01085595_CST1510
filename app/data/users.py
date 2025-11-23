@@ -58,3 +58,23 @@ def update_user_role(username, new_role):
     finally:
         conn.close()
         return rowcount
+#------------------------------------------------------------------------
+
+def delete_user(conn, user_id):
+    #delete user ID
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "DELETE FROM users WHERE user_id = ?",
+            (user_id,)
+        )
+        conn.commit()
+        rowcount = cursor.rowcount
+    
+    except Exception as e:
+        print(f"Error deleting user ID {user_id}: {e}")
+        rowcount = 0
+
+    conn.close()
+    return rowcount
+
