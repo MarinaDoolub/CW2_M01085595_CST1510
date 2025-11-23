@@ -39,3 +39,20 @@ def get_all_incidents(conn):
         return pd.DataFrame()  # return empty DataFrame on error
 
 #-________________________________________________________________________-
+
+#Updating the status of an incident.
+
+def update_incident_status(conn, incident_id, new_status):
+
+    cursor = conn.cursor()
+
+    # Parameterized SQL to prevent SQL injection
+    update_query = "UPDATE cyber_incidents SET status = ? WHERE incident_id = ?"
+    cursor.execute(update_query, (new_status, incident_id))
+
+    conn.commit()
+
+    # Return number of rows affected
+    return cursor.rowcount
+
+#-________________________________________________________________________-
