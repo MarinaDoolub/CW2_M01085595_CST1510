@@ -48,3 +48,14 @@ def read_by_id(conn, table_name, row_id):
     cursor = conn.cursor()
     cursor.execute(f"SELECT * FROM {table_name} WHERE id=?", (row_id,))
     return cursor.fetchone()
+
+#-----------------------------------------------------
+# Update table
+def update_value(conn, table_name, column, new_value, row_id):
+    cursor = conn.cursor()
+    cursor.execute(
+        f"UPDATE {table_name} SET {column}=? WHERE id=?",
+        (new_value, row_id)
+    )
+    conn.commit()
+    return cursor.rowcoun
