@@ -5,7 +5,6 @@ from app.data.db import connect_database
 #Inserting a new cyber incident into the database.
 
 def insert_incident(conn, date, incident_type, severity, status, description, reported_by=None):
-
     cursor = conn.cursor()
 
     # Set default reporter if none provided
@@ -31,6 +30,7 @@ def insert_incident(conn, date, incident_type, severity, status, description, re
 def get_all_incidents(conn):
 
     try:
+        # Using pandas to read directly from the connection
         df = pd.read_sql_query("SELECT * FROM cyber_incidents ORDER BY id DESC", conn)
         print(f" Retrieved {len(df)} incidents from the database")
         return df
@@ -45,6 +45,7 @@ def get_all_incidents(conn):
 def update_incident_status(conn, incident_id, new_status):
 
     cursor = conn.cursor()
+
 
     # Parameterized SQL to prevent SQL injection
     update_query = "UPDATE cyber_incidents SET status = ? WHERE incident_id = ?"
@@ -63,6 +64,7 @@ def update_incident_status(conn, incident_id, new_status):
 def delete_incident(conn, incident_id):
 
     cursor = conn.cursor()
+
 
     delete_query = "DELETE FROM cyber_incidents WHERE incident_id = ?"
     cursor.execute(delete_query, (incident_id,))
