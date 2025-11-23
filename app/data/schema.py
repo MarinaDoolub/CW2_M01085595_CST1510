@@ -1,75 +1,75 @@
-# #creating functions to create the tables
-# #-________________________________________________________________________-
-# #creating the users's table
-# def create_users_table(conn):
+#creating functions to create the tables
+#-________________________________________________________________________-
+#creating the users's table
+def create_users_table(conn):
 
-#     cursor = conn.cursor()
+    cursor = conn.cursor()
 
 
-#     # SQL statement to create users table
-#     create_table_sql = """
-#     CREATE TABLE IF NOT EXISTS users (
-#         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#         username TEXT NOT NULL UNIQUE,
-#         password_hash TEXT NOT NULL,
-#         role TEXT DEFAULT 'user',
-#         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-#     )
-#     """
+    # SQL statement to create users table
+    create_table_sql = """
+    CREATE TABLE IF NOT EXISTS users (
+        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        role TEXT DEFAULT 'user',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """
 
-#     cursor.execute(create_table_sql)
-#     conn.commit()
-#     print("Users table created successfully!")
+    cursor.execute(create_table_sql)
+    conn.commit()
+    print("Users table created successfully!")
 
-# #-________________________________________________________________________-
+#-________________________________________________________________________-
 
 #Creating Domain Tables
 
-# def create_cyber_incidents_table(conn):
+def create_cyber_incidents_table(conn):
 
-#     cursor = conn.cursor()
+    cursor = conn.cursor()
 
-#     # SQL statement to create cyber_incidents table
-#     create_table_sql = """
-#     CREATE TABLE IF NOT EXISTS cyber_incidents (
-#     incident_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#     date TEXT NOT NULL,
-#     incident_type TEXT NOT NULL,
-#     severity TEXT NOT NULL,
-#     status TEXT NOT NULL,
-#     description TEXT,
-#     reported_by TEXT NOT NULL,
-#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-#     );
-#     """
-#     cursor.execute(create_table_sql)
-#     conn.commit()
-#     print("Cyber incidents table created successfully!")
+    # SQL statement to create cyber_incidents table
+    create_table_sql = """
+    CREATE TABLE IF NOT EXISTS cyber_incidents (
+    incident_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL,
+    incident_type TEXT NOT NULL,
+    severity TEXT NOT NULL,
+    status TEXT NOT NULL,
+    description TEXT,
+    reported_by TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    """
+    cursor.execute(create_table_sql)
+    conn.commit()
+    print("Cyber incidents table created successfully!")
 
-# #-________________________________________________________________________-
-# def create_datasets_metadata_table(conn):
-#     cursor = conn.cursor()
+#-________________________________________________________________________-
+def create_datasets_metadata_table(conn):
+    cursor = conn.cursor()
 
-#     create_table_sql = """
-#     CREATE TABLE IF NOT EXISTS datasets_metadata (
-#         dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,   
-#         dataset_name TEXT NOT NULL,
-#         category TEXT,
-#         source TEXT,
-#         last_updated TEXT,
-#         record_count INTEGER,
-#         file_size_mb REAL,                            
-#         columns INTEGER,
-#         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                 
-#         uploaded_by TEXT,                                
-#         upload_date TEXT,                                                                                                                                 
-#     );
-#     """
+    create_table_sql = """
+    CREATE TABLE IF NOT EXISTS datasets_metadata (
+        dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,   
+        dataset_name TEXT NOT NULL,
+        category TEXT,
+        source TEXT,
+        last_updated TEXT,
+        record_count INTEGER,
+        file_size_mb REAL,                            
+        columns INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                 
+        uploaded_by TEXT,                                
+        upload_date TEXT,                                                                                                                                 
+    );
+    """
 
-#     cursor.execute(create_table_sql)
-#     conn.commit()
-#     print("Datasets metadata table created successfully!")
-# #-________________________________________________________________________-
+    cursor.execute(create_table_sql)
+    conn.commit()
+    print("Datasets metadata table created successfully!")
+#-________________________________________________________________________-
 
 def create_it_tickets_table(conn):
     cursor = conn.cursor()
@@ -94,3 +94,9 @@ def create_it_tickets_table(conn):
     cursor.execute(create_table_sql)
     conn.commit()
     print("IT tickets table created successfully!")
+
+def create_all_tables(conn):
+    create_users_table(conn)
+    create_cyber_incidents_table(conn)
+    create_datasets_metadata_table(conn)
+    create_it_tickets_table(conn)
