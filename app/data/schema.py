@@ -32,17 +32,40 @@ def create_cyber_incidents_table(conn):
     # SQL statement to create cyber_incidents table
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS cyber_incidents (
-        incident_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        timestamp DEFAULT CURRENT_TIMESTAMP,
-        category TEXT NOT NULL,
-        severity TEXT NOT NULL,
-        status TEXT NOT NULL,
-        description TEXT,
-        reported_by TEXT NOT NULL,
-    )
+    incident_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL,
+    incident_type TEXT NOT NULL,
+    severity TEXT NOT NULL,
+    status TEXT NOT NULL,
+    description TEXT,
+    reported_by TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
     """
     cursor.execute(create_table_sql)
     conn.commit()
     print("Cyber incidents table created successfully!")
 
-#-________________________________________________________________________-
+# #-________________________________________________________________________-
+# def create_datasets_metadata_table(conn):
+ 
+#     cursor = conn.cursor()
+
+#     # SQL statement to create datasets_metadata table
+#     create_table_sql = """
+#     CREATE TABLE IF NOT EXISTS datasets_metadata (
+#         dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,
+#         name TEXT NOT NULL,
+#         category TEXT,
+#         uploaded_by TEXT,
+#         last_updated TEXT,
+#         record_count INTEGER,
+#         file_size_mb REAL,
+#         upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+#     )
+#     """
+
+#     cursor.execute(create_table_sql)
+#     conn.commit()
+#     print("Datasets metadata table created successfully!")
+# #-________________________________________________________________________-
