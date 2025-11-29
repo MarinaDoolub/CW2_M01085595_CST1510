@@ -1,1 +1,8 @@
-#this will contain all the requirements
+#these are the main required imports
+brcypt
+sqlite3
+Path
+pandas
+re
+time
+secrets
