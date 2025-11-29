@@ -45,3 +45,44 @@ When a new user registers, they enter their username and password, the password 
 When the database is initialized and the tables are created, that is; users tables and the domains table( Cyber Incidents, Datasets Metasets and IT Tickets), the CSV files are loaded into them. 
 
 CRUD operations can be performed for Users,Cyber incident, Dataset Metadata , IT ticket.
+
+# Screenshots
+
+### Authentication Terminal
+![Authentication Terminal](./screenshots/test authentication terminal.png)
+
+### Users Table
+![Users Table](./screenshots/test authentication table.png)
+
+### Main Terminal
+![Terminal Main](./screenshots/terminal of main.png)
+
+### Main Terminal 2
+![Terminal Main 2](./screenshots/terminal of main2.png)
+
+### Users Table Screenshot
+![Users Table Screenshot](./screenshots/screenshot of users table.png)
+
+### Users CRUD Operations
+![Users CRUD](./screenshots/screenshot of terminal users CRUD operations.png)
+
+### Setup Terminal
+![Setup Terminal](./screenshots/screenshot of my setup terminal.png)
+
+### Main Terminal + DB Table
+![Main Terminal + DB](./screenshots/screenshot of main terminal + db table.png)
+
+### IT Tickets Table
+![IT Tickets Table](./screenshots/screenshot of it tickets table.png)
+
+### Datasets Table
+![Datasets Table](./screenshots/screenshot of datasets table.png)
+
+### Cyber Incidents Table
+![Cyber Incidents Table](./screenshots/screenshot of cyber incidents table.png)
+
+### CRUD Operations Table
+![CRUD Operations Table](./screenshots/screenshot of CRUD operations table.png)
+
+### Analytical Queries Terminal
+![Analytical Queries Terminal](./screenshots/screenshot of analytical queries terminal.png)
