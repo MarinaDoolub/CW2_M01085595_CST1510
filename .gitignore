@@ -1,3 +1,5 @@
 .venv
 .DS_Store
 Icon
+setup_db.py
+test_db.py
