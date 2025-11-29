@@ -3,22 +3,14 @@ from app.data.db import connect_database
 
 #-________________________________________________________________________-
 #Inserting a new cyber incident into the database.
-
-def insert_incident(conn, date, incident_type, severity, status, description, reported_by=None):
+def insert_incident(conn,timestamp, severity, category, status, description,created_by):
     cursor = conn.cursor()
 
-    # Set default reporter if none provided
-    if reported_by is None:
-        reported_by = 'system'
-
-    # Parameterized SQL query to prevent SQL injection
-    insert_query = """
+    cursor.execute("""
         INSERT INTO cyber_incidents
-        (date, incident_type, severity, status, description, reported_by)
+        (timestamp, severity, category, status, description,created_by)
         VALUES (?, ?, ?, ?, ?, ?)
-    """
-
-    cursor.execute(insert_query, (date, incident_type, severity, status, description, reported_by))
+    """,(timestamp,severity, category, status, description,created_by))
     conn.commit()
 
     # Return the ID of the inserted row
@@ -31,7 +23,7 @@ def get_all_incidents(conn):
 
     try:
         # Using pandas to read directly from the connection
-        df = pd.read_sql_query("SELECT * FROM cyber_incidents ORDER BY id DESC", conn)
+        df = pd.read_sql_query("SELECT * FROM cyber_incidents ORDER BY incident_id DESC", conn)
         print(f" Retrieved {len(df)} incidents from the database")
         return df
     except Exception as e:
@@ -45,12 +37,7 @@ def get_all_incidents(conn):
 def update_incident_status(conn, incident_id, new_status):
 
     cursor = conn.cursor()
-
-
-    # Parameterized SQL to prevent SQL injection
-    update_query = "UPDATE cyber_incidents SET status = ? WHERE incident_id = ?"
-    cursor.execute(update_query, (new_status, incident_id))
-
+    cursor.execute("""UPDATE cyber_incidents SET status = ? WHERE incident_id = ?""",(new_status, incident_id))
     conn.commit()
 
     # Return number of rows affected
@@ -60,60 +47,51 @@ def update_incident_status(conn, incident_id, new_status):
 
 #Delete an incident from the database.
 
-
 def delete_incident(conn, incident_id):
 
     cursor = conn.cursor()
 
-
-    delete_query = "DELETE FROM cyber_incidents WHERE incident_id = ?"
-    cursor.execute(delete_query, (incident_id,))
-
+    cursor.execute("""DELETE FROM cyber_incidents WHERE incident_id = ?""",(incident_id,))
     conn.commit()
 
     return cursor.rowcount
 
 # Analytical reporting queries
 #-________________________________________________________________________-
-#Counting incidents by type.
+#this gets total incidents by category and shows the trend 
 
-def get_incidents_by_type_count(conn):
-
+def get_incidents_by_category(conn):
     query = """
-    SELECT incident_type, COUNT(*) as count
+    SELECT category, COUNT(*) AS count
     FROM cyber_incidents
-    GROUP BY incident_type
+    GROUP BY category
     ORDER BY count DESC
     """
     df = pd.read_sql_query(query, conn)
     return df
 
 #-________________________________________________________________________-
-#Counting high severity incidents by status.
+#this identifies the bottleneck categories by the unresolved incidents
 
-def get_high_severity_by_status(conn):
-
+def get_bottleneck_categories_by_status(conn):
     query = """
-    SELECT status, COUNT(*) as count
+    SELECT category, COUNT(*) AS unresolved_count
     FROM cyber_incidents
-    WHERE severity = 'High'
-    GROUP BY status
-    ORDER BY count DESC
+    WHERE status NOT IN ('Resolved', 'Closed')
+    GROUP BY category
+    ORDER BY unresolved_count DESC
     """
     df = pd.read_sql_query(query, conn)
     return df
-
 #-________________________________________________________________________-
-#Finding incident types above a minimum count.
+#this will show the resolution perfomance that is a detailed view of the open vs the closed statuses
 
-def get_incident_types_with_many_cases(conn, min_count=5):
-
+def get_resolution_status_breakdown(conn):
     query = """
-    SELECT incident_type, COUNT(*) as count
+    SELECT category, status, COUNT(*) AS count
     FROM cyber_incidents
-    GROUP BY incident_type
-    HAVING COUNT(*) > ?
-    ORDER BY count DESC
+    GROUP BY category, status
+    ORDER BY category, count DESC
     """
-    df = pd.read_sql_query(query, conn, params=(min_count,))
+    df = pd.read_sql_query(query, conn)
     return df
