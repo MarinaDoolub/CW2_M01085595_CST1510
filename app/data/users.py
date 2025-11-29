@@ -10,7 +10,6 @@ def get_user_by_username(conn, username):
         (username,)
     )
     user = cursor.fetchone()
-    conn.close()
     return user
 
 #------------------------------------------------------------------------
@@ -33,8 +32,6 @@ def insert_user(conn, username, plain_password, role='user'):
 
     #this is to return the inserted user ID
     last_id = cursor.lastrowid
-    conn.close()
-
     return last_id
 
 #------------------------------------------------------------------------
@@ -53,9 +50,8 @@ def update_user_role(conn, username, new_role):
     except Exception as e:
         print(f"Error updating role for '{username}': {e}")
         rowcount = 0
-    finally:
-        conn.close()
-        return rowcount
+
+    return rowcount
 #------------------------------------------------------------------------
 
 def delete_user(conn, user_id):
@@ -72,7 +68,5 @@ def delete_user(conn, user_id):
     except Exception as e:
         print(f"Error deleting user ID {user_id}: {e}")
         rowcount = 0
-
-    conn.close()
     return rowcount
 

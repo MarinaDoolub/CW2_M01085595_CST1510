@@ -1,4 +1,4 @@
-dataset_id,name,rows,columns,uploaded_by,upload_date
+dataset_id,dataset_name,rows,columns,uploaded_by,upload_date
 1,Customer_Churn,5000,15,data_scientist,2024-01-15
 2,Financial_Fraud,150000,22,cyber_admin,2024-03-01
 3,Server_Logs,800000,10,data_scientist,2024-05-10

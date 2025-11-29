@@ -1,22 +1,72 @@
 import bcrypt
+import re
+import time
+import secrets
 import sqlite3
 from pathlib import Path
 from app.data.db import connect_database
-from app.data.users import get_user_by_username, insert_user
+from app.data.users import get_user_by_username
 from app.data.schema import create_users_table
 
 DATA_DIR = Path("DATA")
+# Dictionary to track failed login attempts
+failed_attempts = {} 
+locked_accounts = {}
+# Dictionary to track token sessions
+sessions = {}
+#-________________________________________________________________________-
+#Checks the strength of a password
 
-def register_user(username, password, role="user"):
+def check_password_strength(password):
 
-    conn = connect_database()
+    length = len(password)
+    if length < 8:
+        return "Weak"
+
+    has_lower = bool(re.search(r"[a-z]", password))
+    has_upper = bool(re.search(r"[A-Z]", password))
+    has_digit = bool(re.search(r"\d", password))
+    has_special = bool(re.search(r"[!@#$%^&*(),.?\":{}|<>]", password))
+
+    common_patterns = ['123', 'password', 'qwerty', 'abc', 'letmein', 'admin']
+    pattern_found = any(pattern.lower() in password.lower() for pattern in common_patterns)
+
+    score = sum([has_lower, has_upper, has_digit, has_special])
+
+    if pattern_found or score < 3:
+        return "Weak"
+    elif score == 3:
+        return "Moderate"
+    else:
+        return "Strong"
+    
+#-________________________________________________________________________-
+
+def create_session(username):
+    # Generates a 16-byte token
+    token = secrets.token_hex(16)   
+    timestamp = time.time()        
+
+    sessions[username] = (token, timestamp)
+    return token
+
+#-________________________________________________________________________-
+#registers a new user
+def register_user(conn, username, password, role="user"):
     cursor = conn.cursor()
+    create_users_table(conn)
+    
 
-    # Check if user already exists
-    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-    if cursor.fetchone():
-        conn.close()
+   # Checks if user already exists
+    exist = get_user_by_username(conn, username)
+    if exist:
         return False, f"Username '{username}' already exists."
+
+    # Checks the password strength
+    strength = check_password_strength(password)
+    if strength == "Weak":
+        return False, "Password too weak! Must include uppercase, lowercase, digits & special characters."
+
 
     # Hash the password
     password_bytes = password.encode('utf-8')
@@ -30,21 +80,28 @@ def register_user(username, password, role="user"):
         (username, password_hash, role)
     )
     conn.commit()
-    conn.close()
 
     return True, f"User '{username}' registered successfully!"
 
 #-________________________________________________________________________-
-
-def login_user(username, password):
-    conn = connect_database()
+#logs in a user
+def login_user(conn, username, password):
     cursor = conn.cursor()
 
-    # Find user
-    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-    user = cursor.fetchone()
-    conn.close()
+    # Check if the account is currently locked
+    now = time.time()
+    if username in locked_accounts:
+        if now < locked_accounts[username]:
+            unlock_in = int(locked_accounts[username] - now)
+            return False, f"Account locked. Try again in {unlock_in} seconds."
+        else:
+            # Unlock the account
+            del locked_accounts[username]
+            # resetting the failed attempts
+            failed_attempts[username] = 0  
 
+    # Find user
+    user = get_user_by_username(conn, username)
     if not user:
         return False, "Username not found."
 
@@ -54,9 +111,27 @@ def login_user(username, password):
     hash_bytes = stored_hash.encode('utf-8')
 
     if bcrypt.checkpw(password_bytes, hash_bytes):
-        return True, f"Welcome, {username}!"
+        # Successful login which means reset the failed attempts
+        failed_attempts[username] = 0
+
+        # Creates the session token
+        token = create_session(username)
+
+        return True, f"Welcome, {username} Session token:{token}"
+    
     else:
-        return False, "Invalid password."
+        # Increment the failed attempts
+        failed_attempts[username] = failed_attempts.get(username, 0) + 1
+        attempts_left = 3 - failed_attempts[username]
+
+        if failed_attempts[username] >= 3:
+            # Lock the account for 5 minutes
+            locked_accounts[username] = now + 5 * 60  
+            # reset attempts after locking
+            failed_attempts[username] = 0  
+            return False, "Account is now locked due to 3 failed attempts. Please try again in 5 minutes."
+        else:
+            return False, f"Invalid password. {attempts_left} attempt(s) left."
     
 #-________________________________________________________________________-
 
@@ -95,13 +170,9 @@ def migrate_users_from_file(conn, filepath=DATA_DIR / "users.txt"):
 
     conn.commit()
     print(f" Migrated {migrated_count} users from {filepath.name}")
-    
-    # Verify users were migrated
-    conn = connect_database()
-    cursor = conn.cursor()
 
-    # Query all users
-    cursor.execute("SELECT id, username, role FROM users")
+    # Query all users and verify if they migrated
+    cursor.execute("SELECT user_id, username, role FROM users")
     users = cursor.fetchall()
 
     print(" Users in database:")
@@ -111,4 +182,3 @@ def migrate_users_from_file(conn, filepath=DATA_DIR / "users.txt"):
         print(f"{user[0]:<5} {user[1]:<15} {user[2]:<10}")
 
     print(f"\nTotal users: {len(users)}")
-    conn.close()
