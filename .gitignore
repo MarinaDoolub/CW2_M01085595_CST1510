@@ -4,4 +4,4 @@ Icon
 setup_db.py
 test_db.py
 packages.py
-streamlit-env
+st_env
