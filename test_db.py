@@ -2,9 +2,7 @@ from app.data.db import connect_database
 from app.services.user_service import register_user, login_user
 from app.data.users import insert_user, get_user_by_username, update_user_role, delete_user
 from app.data.incidents import (
-    insert_incident,
-    update_incident_status,
-    delete_incident,get_incidents_by_category,
+    get_incidents_by_category,
     get_bottleneck_categories_by_status,
     get_resolution_status_breakdown
 )

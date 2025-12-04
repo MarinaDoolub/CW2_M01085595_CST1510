@@ -40,7 +40,7 @@ if not st.session_state.logged_in:
     st.error("You must be logged in to view the dashboard.")
 
     if st.button("Go to login page"):
-        st.switch_page("Home") # back to the first page
+        st.switch_page("Home.py") # back to the first page
     st.stop()
 
 # If logged in, show dashboard content
@@ -784,9 +784,9 @@ if st.button("Log out"):
     st.session_state.logged_in = False
     st.session_state.username = ""
     st.info("You have been logged out.")
-    st.switch_page("Home")
+    st.switch_page("Home.py")
 
 if not st.session_state.logged_in:
     st.error("You must be logged in...")
-    st.switch_page("Home")
+    st.switch_page("Home.py")
 st.stop()
