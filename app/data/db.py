@@ -11,7 +11,7 @@ def connect_database(db_path=DB_PATH):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     #connect to database
-    conn = sqlite3.connect(str(db_path))
+    conn = sqlite3.connect(str(db_path), check_same_thread=False)
 
     print("Imports successful!")
     print("Database connected successfully!")

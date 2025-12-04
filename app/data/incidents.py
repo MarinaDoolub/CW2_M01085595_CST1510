@@ -57,7 +57,6 @@ def delete_incident(conn, incident_id):
     return cursor.rowcount
 
 # Analytical reporting queries
-#-________________________________________________________________________-
 #this gets total incidents by category and shows the trend 
 
 def get_incidents_by_category(conn):
@@ -70,7 +69,20 @@ def get_incidents_by_category(conn):
     df = pd.read_sql_query(query, conn)
     return df
 
-#-________________________________________________________________________-
+#-____________________________________
+
+#Count high severity incidents by status.
+def get_high_severity_by_status(conn):
+    query = """
+    SELECT status, COUNT(*) as count
+    FROM cyber_incidents
+    WHERE severity = 'High'
+    GROUP BY status
+    ORDER BY count DESC
+    """
+    df = pd.read_sql_query(query, conn)
+    return df
+#-________________________________________________________________________________________-
 #this identifies the bottleneck categories by the unresolved incidents
 
 def get_bottleneck_categories_by_status(conn):

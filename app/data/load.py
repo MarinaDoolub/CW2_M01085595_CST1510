@@ -51,6 +51,7 @@ def load_all_csv_data(conn):
     print(f"\nTotal rows loaded: {total}")
     return total
 
+
 #-----------------------------------------------------
 def ensure_columns_exist(conn, table_name, df):
     cursor = conn.cursor()
