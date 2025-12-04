@@ -15,3 +15,7 @@ load.cpython-311.pyc
 schema.cpython-311.pyc
 users.cpython-311.pyc
 user_service.cpython-311.pyc
+.env
+__pycache__/
+*.pyc
+*.pyo
