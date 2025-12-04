@@ -52,7 +52,7 @@ def create_session(username):
 
 #-________________________________________________________________________-
 #registers a new user
-def register_user(conn, username, password, role="user"):
+def register_user(conn, username, password, role):
     cursor = conn.cursor()
     create_users_table(conn)
     
