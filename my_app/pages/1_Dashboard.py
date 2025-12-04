@@ -20,6 +20,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from scipy import stats
 
+#connection section
 #___________________________-
 if "conn" not in st.session_state:
     st.session_state.conn = connect_database()
