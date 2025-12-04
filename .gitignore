@@ -19,3 +19,7 @@ user_service.cpython-311.pyc
 __pycache__/
 *.pyc
 *.pyo
+my_app/.streamlit/secrets.toml
+chatgpt_basic.py
+chatgpt_interactive.py
+chatgpt_secure.py
