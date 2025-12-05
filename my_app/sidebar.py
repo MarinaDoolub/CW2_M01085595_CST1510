@@ -7,19 +7,18 @@ def sidebar_navigation():
         ("Users","Cyber Security","Data Science","IT Operations")
     )
 
-    st.sidebar.subheader("Filters")
     filters = {}
 
     if category == "Cyber Security":
-        filters["severity"] = st.sidebar.multiselect((
+        filters["severity"] = st.sidebar.multiselect(
             "Severity",
             ["Low","Medium","High","Critical"]
+        
         )
-        )
-        filters["status"] = st.sidebar.multiselect((
+        filters["status"] = st.sidebar.multiselect(
             "Status",
             ["Open","In Progress","Resolved","Closed"]
-        )
+        
         )
 
     elif category == "Data Science":
@@ -40,7 +39,7 @@ def sidebar_navigation():
 
     st.sidebar.header("AI Assitant")
 
-    if st.button("Clear AI Chat"): 
+    if st.sidebar.button("Clear AI Chat"): 
         st.session_state.messages = [ 
             {"role": "system","content":"You are a helpful assistant"} ]
             
