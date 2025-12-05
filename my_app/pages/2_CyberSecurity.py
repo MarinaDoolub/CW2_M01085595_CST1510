@@ -26,15 +26,6 @@ conn = st.session_state.conn
 
 if "username" not in st.session_state:
     st.session_state.username = ""
-    
-# Guard: if not logged in, send user back
-if not st.session_state.logged_in:
-    st.error("You must be logged in to view the dashboard.")
-
-    if st.button("Go to login page"):
-        st.switch_page("Home.py") # back to the first page
-    st.stop()
-
 
 ##initializing client
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
