@@ -2,8 +2,12 @@ import streamlit as st
 import os
 import sys
 
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 st.set_page_config(page_title="Multi-Intelligence Domain Platform", page_icon="📊",layout="wide")
+
 
 from app.data.db import connect_database
 from app.services.user_service import register_user, login_user
@@ -37,9 +41,9 @@ st.title("🔐 Welcome")
 if st.session_state.logged_in:
     st.success(f"Already logged in as **{st.session_state.username}**.")
         
-    if st.button("Go to dashboard"):
+    if st.button("Go to User's dashboard"):
     # Use the official navigation API to switch pages
-        st.switch_page("pages/1_Dashboard.py") # path is relative to Home.py :contentReference[oaicite:1]{index=1}
+        st.switch_page("pages/1_Users.py") # path is relative to Home.py :contentReference[oaicite:1]{index=1}
         st.stop() # Don’t show login/register again
 
 # ---------- Tabs: Login / Register ----------
@@ -61,7 +65,7 @@ with tab_login:
             st.session_state.username = login_username
             st.success(f"Welcome back, {login_username}! 🎉 ")
             # Redirect to dashboard page
-            st.switch_page("pages/1_Dashboard.py")
+            st.switch_page("pages/1_Users.py")
         else:
             st.error(message)
 
