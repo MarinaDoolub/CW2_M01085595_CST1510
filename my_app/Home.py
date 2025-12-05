@@ -2,10 +2,12 @@ import streamlit as st
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+st.set_page_config(page_title="Multi-Intelligence Domain Platform", page_icon="📊",layout="wide")
 
 from app.data.db import connect_database
 from app.services.user_service import register_user, login_user
+from app.data.load import load_all_csv_data
 from app.data.users import get_user_by_username
 from app.data.schema import create_all_tables
 
@@ -14,8 +16,8 @@ st.set_page_config(page_title="Login / Register", page_icon="🔑", layout="cent
 #database connection
 if "conn" not in st.session_state:
     st.session_state.conn = connect_database()
-
-create_all_tables(st.session_state.conn)
+    create_all_tables(st.session_state.conn)
+    load_all_csv_data(st.session_state.conn)
 
 
 # ---------- Initialise session state ----------
