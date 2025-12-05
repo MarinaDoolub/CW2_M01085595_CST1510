@@ -11,41 +11,45 @@ A multi_domain command-line platform built in Python & SQL, combining secure aut
 
 1.Authentication & security;
 
-- Secure password hashing using bcrypt with automatic salt generation
-- User registration with duplicate username prevention
-- User login with password verification
-- Password strength checkeing enforcing complexity rules
-- Session token creation for authenticated users
-- Role based access control
-- Account lockout system after multiple failed attempts
-- Input validation for usernames and passwords
+- Secure password hashing using bcrypt with automatic salt generation.
+- User registration with duplicate username prevention.
+- User login with password verification.
+- Password strength checkeing enforcing complexity rules.
+- Session token creation for authenticated users.
+- Role based access control.
+- Account lockout system after multiple failed attempts.
+- Input validation for usernames and passwords.
 
 2.Database & Multi-Domain Operations;
 
-- Users table with full CRUD operations
-- Cyber Incidents, Dataset Metaset and IT Tickets table with CRUD operations
-- File-based user data persistence
+- Users table with full CRUD operations.
+- Cyber Incidents, Dataset Metaset and IT Tickets table with CRUD operations.
+- File-based user data persistence.
 
-3.AI-Powerws insights;
+3.AI-Powered Assistant and insights;
 
-- Interactive dahsboard with analytics, viasualizations, and AI driven insights
+- Interactive dahsboard with analytics, viasualizations, and AI driven insights.
 - Automated insights and KPI generation for Cyber Incidents,Datasets and IT Tickets.
-- Trend analysis and comparative metrics for categories,datasets and ticket priorities
-- Recommendations to archive old datasets in the dataa science and tickets requiring escalation
+- Trend analysis and comparative metrics for categories,datasets and ticket priorities.
+- Recommendations to archive old datasets in the dataa science and tickets requiring escalation.
+- Conversational AI Assistant integrated on the sidebar,it also maintains chat history using the sessioon state and it generates real-time,streamed responses using GPT-4o.
+- Users can ask AI Assistant questions get insights and receive recommendations and the AI chat can be cleared anytime by the user with the clear button.
+
 
 
 ## Technical Implementation
-- Hashing Algorithm: bcrypt with automatic salting
-- Token Generation: secure random token generation for session tokens and each token are non guessable 
-- Data Storage: The primary strorage is in SQLite database for Users, Cyber incidents, Datasets metasets and IT tickets tables:users.txt supported for simple persistence or import
+- Hashing Algorithm: bcrypt with automatic salting.
+- Token Generation: secure random token generation for session tokens and each token are non guessable .
+- Data Storage: The primary strorage is in SQLite database for Users, Cyber incidents, Datasets metasets and IT tickets tables:users.txt supported for simple persistence or import.
 - CSV loading :load_all_csv_data(conn) parses and inserts CSV rows into DB tables (cyber_incidents.csv, it_tickets.csv, users.csv) during setup/init.
-- Password Security: One-way hashing, no plaintext storage
+- Password Security: One-way hashing, no plaintext storage.
 - Validation:
 (i)Username (3-20 alphanumeric characters), 
 (ii)Password (6-50 characters, enforces at least one uppercase, one lowercase, one digit, and one symbol (configurable in password_checker))
 - Account Lockout:Tracks consecutive failed login attempts per user; locks account after configurable threshold; requires admin reset or configured unlock policy.
 - Role System: Role column (admin / user) stored per user; CRUD and domain actions check role before permitting privileged operations.
 - CRUD & Services: Modular service layers handle user CRUD, incident CRUD, dataset CRUD, ticket CRUD, and CSV import, keeping DB access centralized and testable.
+- AI Integration:GPT-4o-based chat assistant,streaming AI responses with session state management.
 
 # How It works
 
