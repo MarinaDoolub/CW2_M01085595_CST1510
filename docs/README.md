@@ -1,10 +1,11 @@
+**Course: CST1510 -CW2 - Multi-Domain Intelligence Platform**
+
 Student Name: Marina Doolub Julie Marie
 Student ID: M01085595
 
-**Course: CST1510 -CW2 - Multi-Domain Intelligence Platform**
 
 ## Project Description
-A multi_domain command-line platform built in Python & SQL, combining secure authentication system,implementing secure password hashing,role-based access control and full CRUD operations across Users,Cyber Incidents, Datasets and IT Tickets.This system allows users to register accounts and log in with proper pass and demonstrates strong security practices such as encrypted password storage, password strength ,login attempts being monitored, account lockout protection and lastly a secure token generation for aunthenticated sesssions.
+A multi_domain command-line platform built in Python & SQL, combining secure authentication system,implementing secure password hashing,role-based access control and full CRUD operations,with a web-based Streamlit dashboard for interactive analytics.This system allows users to register accounts and log in with proper pass and demonstrates strong security practices such as encrypted password storage, password strength ,login attempts being monitored, account lockout protection and lastly a secure token generation for aunthenticated sesssions. Additionally, the platform incorperates AI-powered analytics, providing insights, trends and recommendations across domains.
 
 ## Features
 
@@ -25,6 +26,14 @@ A multi_domain command-line platform built in Python & SQL, combining secure aut
 - Cyber Incidents, Dataset Metaset and IT Tickets table with CRUD operations
 - File-based user data persistence
 
+3.AI-Powerws insights;
+
+- Interactive dahsboard with analytics, viasualizations, and AI driven insights
+- Automated insights and KPI generation for Cyber Incidents,Datasets and IT Tickets.
+- Trend analysis and comparative metrics for categories,datasets and ticket priorities
+- Recommendations to archive old datasets in the dataa science and tickets requiring escalation
+
+
 ## Technical Implementation
 - Hashing Algorithm: bcrypt with automatic salting
 - Token Generation: secure random token generation for session tokens and each token are non guessable 
@@ -44,7 +53,9 @@ When a new user registers, they enter their username and password, the password 
 
 When the database is initialized and the tables are created, that is; users tables and the domains table( Cyber Incidents, Datasets Metasets and IT Tickets), the CSV files are loaded into them. 
 
-CRUD operations can be performed for Users,Cyber incident, Dataset Metadata , IT ticket.
+When the user finally enters the dashboard,they get to choose in the sidebar which domain they want to view or view the users. For each domain, they can drag and drop the csv file respective to it and the table will be displayed. CRUD operations can be performed for all domains on the streamlit interface. 
+
+The dashboard also provides filters,KPIs,interactive forms, comparative tables, trend visualizers and analytics charts. The user can also make use of the AI assistant found in the sidebar for any questions or queries.
 
 # Screenshots
 
