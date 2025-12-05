@@ -1,11 +1,13 @@
 import sqlite3
 from pathlib import Path
 
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 #define paths
-DATA_DIR = Path("DATA")
+DATA_DIR = PROJECT_ROOT / "DATA"
 DB_PATH = DATA_DIR / "intelligence_platform.db"
 
-def connect_database(db_path=DB_PATH):
+def connect_database(db_path: Path=DB_PATH):
     #create DATA directory if it doesn't exist
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
