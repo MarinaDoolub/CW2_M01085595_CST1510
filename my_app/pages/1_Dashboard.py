@@ -3,6 +3,7 @@ import os
 import sys
 import pandas as pd
 import numpy as np
+from openai import OpenAI
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 st.set_page_config(page_title="Multi-Intelligence Domain Platform", page_icon="📊",layout="wide")
@@ -48,6 +49,15 @@ if not st.session_state.logged_in:
 st.title("📊 Multi-Intelligence Domain Platform")
 st.success(f"Hello, **{st.session_state.username}**! You are logged in.")
 
+##initializing client
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+#initializing chat session 
+if "messages" not in st.session_state:
+    st.session_state.messages =[
+        {"role": "system", "content": "You are a helpful assistant"}]
+    
+if "clear_chat" not in st.session_state:
+    st.session_state.clear_chat = False
 #---------------------------------------------------
 
 # Sidebar filters
@@ -88,6 +98,55 @@ with st.sidebar:
             ["Open","In Progress","Resolved","Closed"]
         )
         assigned_filter = st.text_input("Assigned_to")
+
+    st.header("AI Assitant")
+
+    if st.button("Clear AI Chat"): 
+        st.session_state.messages = [ 
+            {"role": "system","content":"You are a helpful assistant"} ]
+            
+        #clear chat
+        st.session_state.chat_input =""
+        st.session_state.clear_chat = True
+
+    #this will be displaying old chat messages 
+    for msg in st.session_state.messages: 
+        if msg["role"] == "system": 
+                continue 
+
+        with st.chat_message(msg["role"]): 
+            st.markdown(msg.get("content",""))
+            
+    #the input box 
+    prompt = st.chat_input("Ask AI something?") 
+    #resetting  
+    if prompt: 
+            #displaying the user's message 
+            with st.chat_message("user"): 
+                st.markdown(prompt) 
+                #saving the message 
+                st.session_state.messages.append({"role": "user", "content":prompt}) 
+                #streaming AI response part 
+                                
+                with st.spinner("Thinking..."): 
+                    completion = client.chat.completions.create( 
+                        model="gpt-4o", 
+                        messages=st.session_state.messages, 
+                        temperature=1.0, 
+                        stream=True
+                    ) 
+                                    
+                    #streaming the messages 
+                    with st.chat_message("assistant"): 
+                        container = st.empty() 
+                        full_reply = "" 
+                        for chunk in completion:
+                            delta = chunk.choices[0].delta 
+                            if delta.content: 
+                                full_reply += delta.content 
+                                container.markdown(full_reply + "▌") 
+                                container.markdown(full_reply) 
+                        st.session_state.messages.append({"role": "assistant", "content": full_reply})    
 
 
 # Fetch data from database based on selected category
