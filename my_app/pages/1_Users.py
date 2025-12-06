@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from openai import OpenAI
 from app.data.db import connect_database
-from my_app.sidebar import sidebar_navigation, ai_chat
+from my_app.sidebar import sidebar_navigation, sidebar_ai_assistant
 from app.data.users import update_user_role,delete_user
 
 #connection section
@@ -32,12 +32,10 @@ if not st.session_state.logged_in:
 st.title("📊 Multi-Intelligence Domain Platform")
 st.success(f"Hello, **{st.session_state.username}**! You are logged in.")
 
-##initializing client
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
 #sidebar with its contents
-category, filters = sidebar_navigation()
-ai_chat(client)
+sidebar_navigation()
+sidebar_ai_assistant()
+
 
 st.subheader("Users")
 try:

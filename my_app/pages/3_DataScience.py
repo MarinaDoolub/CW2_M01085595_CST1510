@@ -3,7 +3,7 @@ import pandas as pd
 from openai import OpenAI
 import plotly.express as px
 from app.data.db import connect_database
-from my_app.sidebar import sidebar_navigation, ai_chat
+from my_app.sidebar import sidebar_navigation, sidebar_ai_assistant
 from app.data.datasets import insert_dataset,update_dataset,delete_dataset
 
 
@@ -27,12 +27,9 @@ conn = st.session_state.conn
 if "username" not in st.session_state:
     st.session_state.username = ""
 
-##initializing client
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
 #sidebar with its contents
 category, filters = sidebar_navigation()
-ai_chat(client)
+sidebar_ai_assistant()
 
 
 # If logged in, show dashboard content

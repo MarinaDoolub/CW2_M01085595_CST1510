@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from openai import OpenAI
 from app.data.db import connect_database
-from my_app.sidebar import sidebar_navigation, ai_chat
+from my_app.sidebar import sidebar_navigation, sidebar_ai_assistant
 import plotly.express as px
 from app.data.it_tickets import insert_tickets,update_tickets,delete_ticket
 
@@ -27,13 +27,10 @@ conn = st.session_state.conn
 
 if "username" not in st.session_state:
     st.session_state.username = ""
-
-##initializing client
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
+    
 #sidebar with its contents
 category, filters = sidebar_navigation()
-ai_chat(client)
+sidebar_ai_assistant()
 
 # If logged in, show dashboard content
 st.title("📊 Multi-Intelligence Domain Platform")
